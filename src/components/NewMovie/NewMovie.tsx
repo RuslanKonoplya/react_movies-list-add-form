@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
 import { TextField } from '../TextField';
+import { Movie } from '../../types/Movie';
 
-export const NewMovie: React.FC = ({ onAdd }) => {
+
+type Props = {
+  onAdd: (movie: Movie) => void;
+}
+
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   // Increase the count after successful form submission
   // to reset touched status of all the `Field`s
-  const [count] = useState(0);
+  const [count,setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setimgUrl] = useState('');
@@ -12,9 +18,6 @@ export const NewMovie: React.FC = ({ onAdd }) => {
   const [imdbId, setimdbId] = useState('');
 
   const disabled = !title || !imgUrl || !imdbUrl || !imdbId;
-
-
-
 
   const newMovie = () => {
     return {
@@ -26,11 +29,12 @@ export const NewMovie: React.FC = ({ onAdd }) => {
     };
   };
 
-
   const handleAddMovie = () => {
     const movie = newMovie();
 
     onAdd(movie);
+    setCount(c => c + 1);
+
   };
 
   const reset = () => {
